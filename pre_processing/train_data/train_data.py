@@ -66,48 +66,7 @@ def make_pairs(test_qrel_file_path: str,
                 temp_dict['ent_neg'] = {'entity_id':neg, 'entity_relevance':0}
                 test_pairwise_passages_data.append(temp_dict)
         
-        
-    '''
-    if flag == 'car-section-rank':
-        for key, val in samples.items():
-            positive_len = len(val['positive'])
-            negative_len = len(val['negative'])
-
-            k = positive_len
-            if negative_len < positive_len:
-                k = negative_len
-
-            query_relevant_passages = val['positive'][:k]
-            query_relevance = val['positive_rel'][:k]
-            query_irrelevant_passages = val['negative'][:k]
-
-            for pos, neg, pos_rel in zip(query_relevant_passages, query_irrelevant_passages, query_relevance):
-                temp_dict = dict()
-                temp_dict['query'] = {'query_id': key}
-                temp_dict['ent_pos'] = {'entity_id':pos, 'entity_relevance':pos_rel}
-                temp_dict['ent_neg'] = {'entity_id':neg, 'entity_relevance':0}
-                test_pairwise_passages_data.append(temp_dict)
-    else:
-        for key, val in samples.items():
-            positive_len = len(val['positive'])
-            negative_len = len(val['negative'])
     
-            k = positive_len
-            if negative_len < positive_len:
-                k = negative_len
-    
-            query_relevant_passages = val['positive'][:k]
-            query_relevance = val['positive_rel'][:k]
-            query_irrelevant_passages = val['negative'][:k]
-            query_irrelevant = val['negative_rel'][:k]
-    
-            for pos, neg, pos_rel, neg_rel in zip(query_relevant_passages, query_irrelevant_passages, query_relevance, query_irrelevant):
-                temp_dict = dict()
-                temp_dict['query'] = {'query_id': key}
-                temp_dict['ent_pos'] = {'entity_id':pos, 'entity_relevance':pos_rel}
-                temp_dict['ent_neg'] = {'entity_id':neg, 'entity_relevance':neg_rel}
-                test_pairwise_passages_data.append(temp_dict)
-    '''
     print(len(test_pairwise_passages_data))
     return test_pairwise_passages_data
     
@@ -248,11 +207,6 @@ def update_pairwise_data(queries_data,
             
             updated_pairwise_data.append(item)
         
-        
-    
-    
-    # for item in pairwise_data:
-    #     updated_pairwise_data.append(json.dumps(item))
         
     return updated_pairwise_data
     
