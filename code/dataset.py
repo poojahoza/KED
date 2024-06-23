@@ -39,10 +39,6 @@ class EntityRankingDataset(Dataset):
         example = self._examples[index]
         if self._train:
             # Create the entity inputs
-            #query_emb = np.average(np.array([entity['entity_embedding'] for entity in example['query']]), axis=0)
-            #query_emb = example['query']['entity_embedding']
-            #print(len(example['query']['query_embed']))
-            #print("***************************")
             if self._experiment == 'paragrn' or self._experiment == 'paragat' or self._experiment == 'paragrntrans' or self._experiment == 'paragattrans' or self._experiment == 'paratunedberttrans' or self._experiment == 'paraentitytrans' or self._experiment == 'paragrnneighborstrans' or self._experiment == 'paragatasp' or self._experiment == 'paragrnasp':
                 query_emb = np.array(example['query']['query_embed'])
                 query_id = example['query']['query_id']
@@ -182,8 +178,6 @@ class EntityRankingDataset(Dataset):
                 }
             elif self._experiment == 'parasymbembedding' or self._experiment == 'parasymbtunedbert' or self._experiment == 'parasymbonlyselfratingwithoutgnn':
                 neighbors = example['entity']['entity_neighbors']
-                #entity_text = example['entity']['entity_text']
-                #query_text = example['query']['query_text']
                 query_emb = np.array(example['query']['query_embed'])
                 ent_emb = np.array(example['entity']['entity_embed'])
                 
@@ -192,14 +186,10 @@ class EntityRankingDataset(Dataset):
                     'query_id': example['query']['query_id'],
                     'entity_id': example['entity']['entity_id'],
                     'entity_neighbors': neighbors,
-                    #'entity_text': entity_text,
-                    #'query_text': query_text,
                     'query_emb': query_emb,
                     'ent_emb': ent_emb,
                 }
             else:
-                #query_emb = np.average(np.array([entity['entity_embedding'] for entity in example['query']]), axis=0)
-                #print(len(example['query']['query_embed']))
                 query_emb = np.array(example['query']['query_embed'])
                 ent_emb = np.array(example['entity']['entity_embedding'])
                 neighbors = example['entity']['entity_neighbors']
@@ -305,7 +295,6 @@ class EntityRankingDataset(Dataset):
                 query_emb = torch.from_numpy(np.array([item['query_emb'] for item in batch])).float()
                 ent_emb_pos = torch.from_numpy(np.array([item['ent_emb_pos'] for item in batch])).float()
                 ent_emb_neg = torch.from_numpy(np.array([item['ent_emb_neg'] for item in batch])).float()
-                #query_text = [item['query_text'] for item in batch]
                 pos_ent_neighbors = [item['pos_ent_neighbors'] for item in batch]
                 neg_ent_neighbors = [item['neg_ent_neighbors'] for item in batch]
                 query_id = [item['query_id'] for item in batch]
@@ -356,9 +345,7 @@ class EntityRankingDataset(Dataset):
                 entity_neighbors = [item['entity_neighbors'] for item in batch]
                 entity_text = [item['entity_text'] for item in batch]
                 query_text = [item['query_text'] for item in batch]
-                #print('==================')
-                #print(query_emb.shape)
-                #print('==================')
+
                 return {
                     'label': label,
                     'query_id': query_id,
@@ -372,13 +359,9 @@ class EntityRankingDataset(Dataset):
                 entity_id = [item['entity_id'] for item in batch]
                 label = [item['label'] for item in batch]
                 entity_neighbors = [item['entity_neighbors'] for item in batch]
-                #entity_text = [item['entity_text'] for item in batch]
-                #query_text = [item['query_text'] for item in batch]
                 query_emb = torch.from_numpy(np.array([item['query_emb'] for item in batch])).float()
                 ent_emb = torch.from_numpy(np.array([item['ent_emb'] for item in batch])).float()
-                #print('==================')
-                #print(query_emb.shape)
-                #print('==================')
+
                 return {
                     'query_emb': query_emb,
                     'ent_emb': ent_emb,
@@ -386,23 +369,17 @@ class EntityRankingDataset(Dataset):
                     'query_id': query_id,
                     'entity_id': entity_id,
                     'entity_neighbors': entity_neighbors
-                    #'entity_text': entity_text,
-                    #'query_text': query_text
                 }
             else:
                 query_id = [item['query_id'] for item in batch]
                 entity_id = [item['entity_id'] for item in batch]
                 label = [item['label'] for item in batch]
-                #query_text = [item['query_text'] for item in batch]
                 entity_neighbors = [item['entity_neighbors'] for item in batch]
-                #query_emb = torch.from_numpy(np.array([item['query_emb'] if len(item['query_emb']) == 50 else item['query_emb'][0] for item in batch])).float()
                 query_emb = torch.from_numpy(np.array([item['query_emb'] for item in batch])).float()
                 ent_emb = torch.from_numpy(np.array([item['ent_emb'] for item in batch])).float()
                 entity_text = [item['entity_text'] for item in batch]
                 query_text = [item['query_text'] for item in batch]
-                #print('==================')
-                #print(query_emb.shape)
-                #print('==================')
+
                 return {
                     'query_emb': query_emb,
                     'ent_emb': ent_emb,

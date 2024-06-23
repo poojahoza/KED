@@ -42,9 +42,6 @@ def train(model, trainer, epochs, metric, qrels, valid_loader, save_path, save, 
         # Validate
         if (epoch + 1) % eval_every == 0:
             res_dict, validation_loss = validator.validate()
-            #res_dict, validation_loss = utils.evaluate(model, valid_loader, device)
-            #print(validation_loss)
-            #print(res_dict)
             total_validation_loss.append(validation_loss)
 
             utils.save_trec(os.path.join(save_path, run_file), res_dict)
@@ -207,9 +204,6 @@ def main():
                 device=device)
     elif args.experiment == 'parasymbtoken':
         
-        # from accelerate import dispatch_model, infer_auto_device_map
-        # from accelerate.utils import get_balanced_memory
-        # from torch.cuda.amp import autocast
         
         model = ParaSymbolsTokenModel(ent_input_emb_dim=args.ent_in_emb_dim,
                 query_input_emb_dim=args.query_in_emb_dim,
@@ -218,29 +212,8 @@ def main():
                 experiment=args.experiment,
                 batch_size=args.batch_size)
         
-        # max_memory = get_balanced_memory(
-        #     model,
-        #     max_memory = None,
-        #     no_split_module_classes = ['MistralDecoderLayer', 'MistralAttention', 'MistralMLP', 'MistralRMSNorm', 'Linear', 'GRN'],
-        #     dtype='float16',
-        #     low_zero=False,
-        # )
-        
-        # device_map = infer_auto_device_map(
-        #     model,
-        #     max_memory = max_memory,
-        #     no_split_module_classes = ['MistralDecoderLayer', 'MistralAttention', 'MistralMLP', 'MistralRMSNorm', 'Linear', 'GRN'],
-        #     dtype='float16')
-        
-        # model = dispatch_model(model, device_map=device_map)
-        
-        # for i in model.named_parameters():
-        #     print(f"{i[0]} -> {i[1].device}")
     elif args.experiment == 'parasymbembedding':
         
-        # from accelerate import dispatch_model, infer_auto_device_map
-        # from accelerate.utils import get_balanced_memory
-        # from torch.cuda.amp import autocast
         
         model = ParaSymbolsEmbeddingModel(ent_input_emb_dim=args.ent_in_emb_dim,
                 query_input_emb_dim=args.query_in_emb_dim,
@@ -248,24 +221,6 @@ def main():
                 device=device,
                 experiment=args.experiment)
         
-        # max_memory = get_balanced_memory(
-        #     model,
-        #     max_memory = None,
-        #     no_split_module_classes = ['MistralDecoderLayer', 'MistralAttention', 'MistralMLP', 'MistralRMSNorm', 'Linear', 'GRN'],
-        #     dtype='float16',
-        #     low_zero=False,
-        # )
-        
-        # device_map = infer_auto_device_map(
-        #     model,
-        #     max_memory = max_memory,
-        #     no_split_module_classes = ['MistralDecoderLayer', 'MistralAttention', 'MistralMLP', 'MistralRMSNorm', 'Linear', 'GRN'],
-        #     dtype='float16')
-        
-        # model = dispatch_model(model, device_map=device_map)
-        
-        # for i in model.named_parameters():
-        #     print(f"{i[0]} -> {i[1].device}")
         
     elif args.experiment == 'parasymbonlyselfratingwithoutgnn':
         model = ParaSymbolsSelfRatingWithoutGNNEmbeddingModel(ent_input_emb_dim=args.ent_in_emb_dim,
